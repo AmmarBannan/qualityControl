@@ -25,7 +25,6 @@ public class TaskService {
     }
 
     public Task createTask(Task task) {      //add task
-        System.out.println("saddddddddddddddddddddddddddddddddddddddddddddddd@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@"+task.getType());
         return taskRepository.save(task);
     }
 
@@ -52,5 +51,20 @@ public class TaskService {
         taskRepository.deleteById(id);
     }
 
-    
+
+    public void updateTaskCompletion(Long id, Boolean completed) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
+        task.setCompleted(completed);
+        taskRepository.save(task);
+    }
+
+    public void updateTaskMetric(Long id, Integer currentPoint) {
+        Task task = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
+        task.setCurrentPoint(currentPoint);
+        taskRepository.save(task);
+    }
+
+    public List<Task> getTasksByTitle(String title) {
+        return taskRepository.findByTitleContainingIgnoreCase(title);
+    }
 }

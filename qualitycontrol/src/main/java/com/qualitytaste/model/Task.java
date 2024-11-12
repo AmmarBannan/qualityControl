@@ -15,12 +15,12 @@ public class Task {
     private String title;
     private String description;
     @Enumerated(EnumType.STRING)
-    private TaskType type; // Checkbox or Metric
+    private TaskType type=TaskType.CHECKBOX; // Checkbox or Metric
 
-    private Boolean completed;
+    private Boolean completed=false;
 
-    private Integer minPoint;     // Minimum value for Metric
-    private Integer maxPoint;     // Maximum value for Metric
+    private Integer minPoint=0;     // Minimum value for Metric
+    private Integer maxPoint=10;     // Maximum value for Metric
     private Integer currentPoint; // Ideal value for Metric
 
 

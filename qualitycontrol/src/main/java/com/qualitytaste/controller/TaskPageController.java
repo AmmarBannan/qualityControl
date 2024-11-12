@@ -1,13 +1,16 @@
 package com.qualitytaste.controller;
 
 import com.qualitytaste.model.Task;
-import com.qualitytaste.service.TaskService; 
+import com.qualitytaste.service.TaskService;
+
+import scala.collection.concurrent.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import com.qualitytaste.service.StringToTaskTypeConverter;
 
 import java.util.List;
 
@@ -23,17 +26,22 @@ public class TaskPageController {
     public String showAllTasks(Model model) {
         List<Task> tasks = taskService.getAllTasks();
         model.addAttribute("tasks", tasks);
+        for (Task task : tasks) {
+            boolean test=task.isCompleted()?true:false;
+        }
         return "taskList.html";
     }
 
     // Search task by ID
     @RequestMapping(value = "/search", method = RequestMethod.GET)
-    public String searchTaskById(@RequestParam("id") Long id, Model model) {
-        Task task = taskService.getTaskById(id).orElseThrow(() -> new IllegalArgumentException("Task not found"));
-        model.addAttribute("task", task);
+    public String searchTaskByTitle(@RequestParam("title") String title, Model model) {
+        List<Task> tasks = taskService.getTasksByTitle(title);
+        if (tasks.isEmpty()) {
+            throw new IllegalArgumentException("No tasks found with the given name");
+        }
+        model.addAttribute("tasks", tasks);
         return "taskDetails.html";
     }
-
     // Show form to add a new task
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String showAddTaskForm(Model model) {
@@ -45,7 +53,6 @@ public class TaskPageController {
     // @RequestMapping(method = RequestMethod.POST,value = "/add", consumes = "application/json", produces = "application/json")
     @PostMapping
     public String addTask(@ModelAttribute Task task) {
-        System.out.println("Task created: " + task + "dsadassdsadasdasdsadsaddasd");
         taskService.createTask(task);
         return "redirect:/tasks";
     }
@@ -72,5 +79,17 @@ public class TaskPageController {
     public String deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
         return "redirect:/tasks";
+    }
+    
+    @PostMapping("/update/completion/{id}")
+    public ResponseEntity<Void> updateTaskCompletion(@PathVariable Long id, @RequestParam Boolean completed) {
+        taskService.updateTaskCompletion(id, completed);
+        return ResponseEntity.ok().build();
+    }
+    
+    @PostMapping("/update/metric/{id}")
+    public ResponseEntity<Void> updateTaskMetric(@PathVariable Long id, @RequestParam Integer currentPoint) {
+        taskService.updateTaskMetric(id, currentPoint);
+        return ResponseEntity.ok().build();
     }
 }

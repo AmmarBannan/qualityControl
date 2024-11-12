@@ -2,6 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Task List</title>
+    <style>
+        .scale-input {
+            width: 100%;
+            max-width: 300px;
+        }
+    </style>
 </head>
 <body>
 
@@ -9,11 +15,10 @@
 
 <!-- Search by ID -->
 <form action="/tasks/search" method="get">
-    <label for="id">Search by ID:</label>
-    <input type="number" id="id" name="id" required />
+    <label for="title">Search by Task Title:</label>
+    <input type="text" id="title" name="title" placeholder="Enter task title" required />
     <button type="submit">Search</button>
 </form>
-
 <br>
 
 <!-- Add Task Link -->
@@ -28,19 +33,76 @@
             <th>ID</th>
             <th>Title</th>
             <th>Description</th>
-            <th>Completed</th>
+            <th>Input</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         <tr th:each="task : ${tasks}">
+            <td th:text="${task.id}"></td>
             <td th:text="${task.title}"></td>
             <td th:text="${task.description}"></td>
+    
+            <td>
+                <!-- Checkbox for tasks of type CHECKBOX -->
+                <div th:if="${task.type != null and task.type.toString() == 'CHECKBOX'}">
+                    <input type="checkbox" 
+                           th:checked="${task.completed}" 
+                           th:data-task-id="${task.id}" 
+                           onchange="updateTaskCompletion(this)" />
+                </div>
+            
+                <!-- Scale vector for tasks of type METRIC -->
+                <div th:if="${task.type != null and task.type.toString() == 'METRIC'}">
+                    <input type="range" class="scale-input" 
+                           th:min="${task.minPoint}" 
+                           th:max="${task.maxPoint}" 
+                           th:value="${task.currentPoint}" 
+                           th:data-task-id="${task.id}" 
+                           oninput="updateMetricValue(this)" />
+                    <span th:text="${task.currentPoint}">Value</span>
+                </div>
+            </td>
             <td>
                 <a th:href="@{/tasks/edit/{id}(id=${task.id})}">Edit</a> |
                 <a th:href="@{/tasks/delete/{id}(id=${task.id})}" onclick="return confirm('Are you sure you want to delete this task?');">Delete</a>
             </td>
         </tr>
+     
+        <script>
+            function updateTaskCompletion(checkbox) {
+                const taskId = checkbox.getAttribute('data-task-id');
+                const completed = checkbox.checked;
+
+                fetch(`/tasks/update/completion/${taskId}?completed=${completed}`, {
+                    method: 'POST',
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to update task completion');
+                    }
+                    console.log('Task updated successfully');
+                })
+                .catch(error => console.error('Error:', error));
+            }
+
+            function updateMetricValue(rangeInput) {
+                const taskId = rangeInput.getAttribute('data-task-id');
+                const currentPoint = rangeInput.value;
+
+                fetch(`/tasks/update/metric/${taskId}?currentPoint=${currentPoint}`, {
+                    method: 'POST',
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to update metric value');
+                    }
+                    console.log('Metric updated successfully');
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        </script>
+        
     </tbody>
 </table>
 
