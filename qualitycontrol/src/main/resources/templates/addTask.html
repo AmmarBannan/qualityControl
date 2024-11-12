@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Task</title>
+</head>
+<body>
+    <h1>Create Task</h1>
+    <form id="taskForm" action="/tasks" method="post">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required><br><br>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea><br><br>
+
+        <label for="type">Task Type:</label>
+        <select id="type" name="type" onchange="toggleMetricFields()">
+            <option value="checkbox">Checkbox</option>
+            <option value="metric">Metric</option>
+        </select><br><br>
+
+        <div id="metricFields" style="display: none;">
+            <label for="minPoint">Min Point:</label>
+            <input type="number" id="minPoint" name="minPoint"><br><br>
+
+            <label for="maxPoint">Max Point:</label>
+            <input type="number" id="maxPoint" name="maxPoint"><br><br>
+        </div>
+
+        <button type="submit">Create Task</button>
+    </form>
+
+    <script>
+        function toggleMetricFields() {
+            const type = document.getElementById('type').value;
+            const metricFields = document.getElementById('metricFields');
+            if (type === 'METRIC') {
+                metricFields.style.display = 'block';
+            } else {
+                metricFields.style.display = 'none';
+            }
+        }
+        
+    </script>
+</body>
+</html>

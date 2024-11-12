@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Task Details</title>
+</head>
+<body>
+
+<h1>Task Details</h1>
+
+<div th:if="${task}">
+    <p>ID: <span th:text="${task.id}"></span></p>
+    <p>Title: <span th:text="${task.title}"></span></p>
+    <p>Description: <span th:text="${task.description}"></span></p>
+    <p>Completed: <span th:text="${task.completed}"></span></p>
+</div>
+
+<div th:if="${task == null}">
+    <p>Task not found!</p>
+</div>
+
+</body>
+</html>

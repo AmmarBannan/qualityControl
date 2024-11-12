@@ -55,6 +55,10 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId><!--  for html use -->
+			<artifactId>spring-boot-starter-thymeleaf</artifactId><!--  for html use -->
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -68,8 +72,8 @@
             <artifactId>maven-compiler-plugin</artifactId>
             <version>3.10.1</version> <!-- Use the latest version -->
             <configuration>
-                <source>17</source> <!-- Or your Java version -->
-                <target>17</target>
+               	<source>23</source>
+                <target>23</target>
             </configuration>
         </plugin> 
 		</plugins>
