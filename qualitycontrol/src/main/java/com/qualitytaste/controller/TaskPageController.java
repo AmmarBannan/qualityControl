@@ -3,8 +3,6 @@ package com.qualitytaste.controller;
 import com.qualitytaste.model.Task;
 import com.qualitytaste.service.TaskService;
 
-import scala.collection.concurrent.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -26,6 +24,7 @@ public class TaskPageController {
     public String showAllTasks(Model model) {
         List<Task> tasks = taskService.getAllTasks();
         model.addAttribute("tasks", tasks);
+
         for (Task task : tasks) {
             boolean test=task.isCompleted()?true:false;
         }
@@ -53,6 +52,10 @@ public class TaskPageController {
     // @RequestMapping(method = RequestMethod.POST,value = "/add", consumes = "application/json", produces = "application/json")
     @PostMapping
     public String addTask(@ModelAttribute Task task) {
+        
+        if (task.getDeadline() == null) {
+            throw new IllegalArgumentException("Deadline must be provided");
+        }
         taskService.createTask(task);
         return "redirect:/tasks";
     }

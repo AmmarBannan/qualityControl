@@ -42,7 +42,7 @@
             <td th:text="${task.id}"></td>
             <td th:text="${task.title}"></td>
             <td th:text="${task.description}"></td>
-    
+    `       <td th:text="${#temporals.format(task.deadline, 'yyyy-MM-dd HH:mm')}"></td>
             <td>
                 <!-- Checkbox for tasks of type CHECKBOX -->
                 <div th:if="${task.type != null and task.type.toString() == 'CHECKBOX'}">
