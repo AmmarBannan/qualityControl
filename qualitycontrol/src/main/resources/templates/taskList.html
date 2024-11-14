@@ -55,12 +55,12 @@
                 <!-- Scale vector for tasks of type METRIC -->
                 <div th:if="${task.type != null and task.type.toString() == 'METRIC'}">
                     <input type="range" class="scale-input" 
-                           th:min="${task.minPoint}" 
-                           th:max="${task.maxPoint}" 
-                           th:value="${task.currentPoint}" 
+                           th:min="${task.min_point}" 
+                           th:max="${task.max_point}" 
+                           th:value="${task.current_point}" 
                            th:data-task-id="${task.id}" 
                            oninput="updateMetricValue(this)" />
-                    <span th:text="${task.currentPoint}">Value</span>
+                    <span th:text="${task.current_point}">Value</span>
                 </div>
             </td>
             <td>

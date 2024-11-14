@@ -58,9 +58,9 @@ public class TaskService {
         taskRepository.save(task);
     }
 
-    public void updateTaskMetric(Long id, Integer currentPoint) {
+    public void updateTaskMetric(Long id, Integer current_point) {
         Task task = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
-        task.setCurrentPoint(currentPoint);
+        task.setCurrent_point(current_point);
         taskRepository.save(task);
     }
 

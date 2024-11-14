@@ -19,22 +19,22 @@ public class Task {
 
     private Boolean completed=false;
 
-    private Integer minPoint=0;     // Minimum value for Metric
-    private Integer maxPoint=10;     // Maximum value for Metric
-    private Integer currentPoint; // Ideal value for Metric
+    private Integer min_point=0;     // Minimum value for Metric
+    private Integer max_point=10;     // Maximum value for Metric
+    private Integer current_point; // Ideal value for Metric
 
 
     // Constructors
 
     public Task() {}
 
-    public Task(String title, String description, TaskType type, Integer minPoint, Integer maxPoint
+    public Task(String title, String description, TaskType type, Integer min_point, Integer max_point
     ) {
         this.title = title;
         this.description = description;
         this.type = type;
-        this.minPoint = minPoint;
-        this.maxPoint = maxPoint;
+        this.min_point = min_point;
+        this.max_point = max_point;
     }
 
 
@@ -54,22 +54,21 @@ public class Task {
     public TaskType getType() { return type; } 
     
     public void setType(String type) {
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        this.type = TaskType.valueOf(type.toUpperCase()); // Convert input to uppercase
+        this.type = TaskType.valueOf(type.toUpperCase()); // Convert in_put to uppercase
     }
 
     public void setType(TaskType type) {
         this.type = type; // Directly set if it's already an enum
     }
 
-    public Integer getMinPoint() { return minPoint; }
-    public void setMinPoint(Integer minPoint) { this.minPoint = minPoint; } 
+    public Integer getMin_point() { return min_point; }
+    public void setMin_point(Integer min_point) { this.min_point = min_point; } 
 
-    public Integer getMaxPoint() { return maxPoint; }   
-    public void setMaxPoint(Integer maxPoint) { this.maxPoint = maxPoint; }
+    public Integer getMax_point() { return max_point; }   
+    public void setMax_point(Integer max_point) { this.max_point = max_point; }
 
-    public Integer getCurrentPoint() { return currentPoint; }
-    public void setCurrentPoint(Integer currentPoint) { this.currentPoint = currentPoint; }
+    public Integer getCurrent_point() { return current_point; }
+    public void setCurrent_point(Integer current_point) { this.current_point = current_point; }
 
     
 }
