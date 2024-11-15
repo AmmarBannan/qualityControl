@@ -3,10 +3,13 @@ package com.qualitytaste.controller;
 import com.qualitytaste.model.Task;
 import com.qualitytaste.service.TaskService;
 
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -51,10 +54,10 @@ public class TaskPageController {
     // Process the form to add a new task
     // @RequestMapping(method = RequestMethod.POST,value = "/add", consumes = "application/json", produces = "application/json")
     @PostMapping
-    public String addTask(@ModelAttribute Task task) {
+    public String addTask(@Valid @ModelAttribute Task task, BindingResult result, Model model) {
         
-        if (task.getDeadline() == null) {
-            throw new IllegalArgumentException("Deadline must be provided");
+        if (result.hasErrors()) {
+            return "createTask";
         }
         taskService.createTask(task);
         return "redirect:/tasks";

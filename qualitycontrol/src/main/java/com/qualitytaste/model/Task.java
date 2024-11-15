@@ -1,10 +1,10 @@
 package com.qualitytaste.model;
 
-import java.text.DateFormat;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
+import jakarta.validation.constraints.FutureOrPresent;
 
 
 @Entity
@@ -20,6 +20,7 @@ public class Task {
     @Enumerated(EnumType.STRING)
     private TaskType type=TaskType.CHECKBOX; // Checkbox or Metric
 
+    private Boolean notify=false;
     private Boolean completed=false;
 
     private Integer min_point=0;     // Minimum value for Metric
@@ -30,7 +31,9 @@ public class Task {
     @Column(name = "creation_date", nullable = false, updatable = false)
     private LocalDateTime creation_date;
     @Column(name = "deadline", nullable = false)
+    @FutureOrPresent(message = "Deadline must be in the future or present")
     private LocalDateTime deadline;
+
 
 
     // Constructors
@@ -38,7 +41,7 @@ public class Task {
     public Task() {}
 
     public Task(String title, String description, TaskType type, Integer min_point, Integer max_point
-        ,LocalDateTime creation_date, Integer priority, LocalDateTime deadline) {
+        ,LocalDateTime creation_date, Integer priority, LocalDateTime deadline, Boolean notify) {
         this.title = title;
         this.description = description;
         this.type = type;
@@ -47,6 +50,7 @@ public class Task {
         this.creation_date=creation_date;
         this.deadline=deadline;
         this.priority=priority;
+        this.notify=notify;
     }
 
 
@@ -63,12 +67,13 @@ public class Task {
     public boolean isCompleted() { return completed; }
     public void setCompleted(boolean completed) { this.completed = completed; }
 
+    public boolean isNotify() { return notify; }
+    public void setNotify(boolean notify) { this.notify = notify; }
+
     public TaskType getType() { return type; } 
-    
     public void setType(String type) {
         this.type = TaskType.valueOf(type.toUpperCase()); // Convert in_put to uppercase
     }
-
     public void setType(TaskType type) {
         this.type = type; // Directly set if it's already an enum
     }
@@ -85,7 +90,7 @@ public class Task {
     public LocalDateTime getCreationDate() {return creation_date;}
 
     public Integer getPriority(){ return priority;}
-    public void setIPriority(Integer priority){this.priority=priority;}
+    public void setPriority(Integer priority){this.priority=priority;}
 
     public LocalDateTime getDeadline() {return deadline;}
     public void setDeadline(LocalDateTime deadline) {this.deadline = deadline;}

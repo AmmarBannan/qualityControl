@@ -15,7 +15,16 @@
         <textarea id="description" name="description" required></textarea><br><br>
 
         <label for="deadline">Deadline:</label>
-        <input type="datetime-local" id="deadline" name="deadline" required /><br>
+        <input type="datetime-local" id="deadline" name="deadline" required min="" />
+        
+
+        <label for="priority">Priority:</label>
+        <input type="number" id="priority" name="priority" required /><br>
+
+        <div th:if="${task.type != null and task.type.toString() == 'CHECKBOX'}">
+            <label for="notify">get Notified:</label>
+            <input type="checkbox" id="notify" name="notify" value="true"/>
+        </div>
 
         <label for="type">Task Type:</label>
         <select id="type" name="type" onchange="toggleMetricFields()">
@@ -24,11 +33,11 @@
         </select><br><br>
 
         <div id="metricFields" style="display: none;">
-            <label for="minPoint">Min Point:</label>
-            <input type="number" id="minPoint" name="minPoint"><br><br>
+            <label for="min_point">Min Point:</label>
+            <input type="number" id="min_point" name="min_point"><br><br>
 
-            <label for="maxPoint">Max Point:</label>
-            <input type="number" id="maxPoint" name="maxPoint"><br><br>
+            <label for="max_point">Max Point:</label>
+            <input type="number" id="max_point" name="max_point"><br><br>
         </div>
 
         <button type="submit">Create Task</button>
@@ -44,7 +53,14 @@
                 metricFields.style.display = 'none';
             }
         }
-        
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const deadlineInput = document.getElementById('deadline');
+            const now = new Date();
+            const localDatetime = now.toISOString().slice(0, 16); // YYYY-MM-DDTHH:MM format
+            deadlineInput.min = localDatetime;
+        });
+
     </script>
 </body>
 </html>
