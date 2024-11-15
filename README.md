@@ -13,4 +13,7 @@ DATABASE "qualityControl" entities, TABLE "tasks":
 NOTE run this before create creation_date column:
   run this ALTER TABLE `tasks` 
   ADD COLUMN `creation_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `priority`;
-  
+
+
+
+  cd .\qualitycontrol\ => ./mvnw clean install
